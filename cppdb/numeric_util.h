@@ -47,7 +47,7 @@ namespace cppdb {
 #pragma warn -8066 // unreachable code
 #endif
 			if(std::numeric_limits<T>::is_integer) {
-				if(v > std::numeric_limits<T>::max() || v < std::numeric_limits<T>::min())
+				if(v > (std::numeric_limits<T>::max)() || v < (std::numeric_limits<T>::min)())
 					throw bad_value_cast();
 			}
 #ifdef __BORLANDC__

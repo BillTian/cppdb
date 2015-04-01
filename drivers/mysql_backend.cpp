@@ -1295,7 +1295,15 @@ public:
 			mysql_set_option(MYSQL_SHARED_MEMORY_BASE_NAME, shared_memory_base_name.c_str());
 		}
 		
-		if(!mysql_real_connect(conn_,phost,puser,ppassword,pdatabase,port,punix_socket,0)) {
+        // support fro multi_statements
+        unsigned long clientflag = 0;
+        if (ci.has("opt_multi_statements")) {
+            unsigned multi = ci.get("opt_multi_statements", 0);
+            if (multi == 1) {
+                clientflag = CLIENT_MULTI_STATEMENTS;
+            }
+        }
+        if (!mysql_real_connect(conn_, phost, puser, ppassword, pdatabase, port, punix_socket, clientflag)) {
 			std::string err="unknown";
 			try { err = mysql_error(conn_); }catch(...){}
 			mysql_close(conn_);
